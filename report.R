@@ -1,0 +1,7 @@
+args <- commandArgs(trailingOnly=TRUE)
+file <- ifelse(length(args) > 0, args[[1]], "sales.csv")
+sales <- read.csv(file, stringsAsFactors=FALSE)
+summary <- aggregate(amount ~ category, data=sales, FUN=sum)
+print(summary)
+cat(sprintf("Total: %.2f\nPromedio: %.2f\n", sum(sales$amount), mean(sales$amount)))
+png("sales-by-category.png", width=900, height=600); barplot(summary$amount, names.arg=summary$category, col="#4263eb", main="Ventas por categoría", ylab="Importe"); dev.off()
